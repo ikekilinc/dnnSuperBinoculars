@@ -1,2 +1,2 @@
-# dnnSuperBinoculars
-DNN neural texture transfer based super resolution running on the Gabriel infrastructure connected to a real-time binoculars Android application!
+# Super Binoculars
+A real-time binoculars Android application running DNN neural texture transfer to do super resolution on the Gabriel distributed infrastructure!
