@@ -1,0 +1,3 @@
+[submodule "SRNTT"]
+	path = SRNTT
+	url = https://github.com/ZZUTK/SRNTT
