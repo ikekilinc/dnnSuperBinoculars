@@ -5,7 +5,10 @@ from gabriel_client.websocket_client import WebsocketClient
 from gabriel_client.opencv_adapter import OpencvAdapter
 
 
-DEFAULT_SERVER_HOST = 'localhost'
+# DEFAULT_SERVER_HOST = 'localhost'
+# DEFAULT_SERVER_HOST = '10.3.1.47'
+
+DEFAULT_SERVER_HOST = '128.2.212.50'
 
 
 def preprocess(frame):
