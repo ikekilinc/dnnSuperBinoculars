@@ -3,6 +3,7 @@ import numpy as np
 
 import common
 import yuv_pb2
+from SRNTT.SRNTT.model import *
 
 from gabriel_protocol import gabriel_pb2
 from gabriel_server import local_engine
@@ -28,6 +29,8 @@ class DisplayEngine(cognitive_engine.Engine):
         width = to_server.width
         height = to_server.height
         rotation = to_server.rotation
+
+        print(width, height, rotation)
 
         yuv = np.reshape(yuv, ((height + (height//2)), width))
         img = cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_NV21)
