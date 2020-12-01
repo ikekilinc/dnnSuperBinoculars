@@ -3,6 +3,7 @@ import numpy as np
 
 import common
 import yuv_pb2
+from SRNTT.SRNTT.model import *
 
 from gabriel_protocol import gabriel_pb2
 from gabriel_server import local_engine
