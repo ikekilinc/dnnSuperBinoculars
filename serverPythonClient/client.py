@@ -1,18 +1,30 @@
 import argparse
-import common
 import cv2
+
+import common
+# from .utils.cropAtCenter import cropImageCenter
+# from cropAtCenter import cropImageCenter
+
 from gabriel_client.websocket_client import WebsocketClient
 from gabriel_client.opencv_adapter import OpencvAdapter
 
-
-# DEFAULT_SERVER_HOST = 'localhost'
-# DEFAULT_SERVER_HOST = '10.3.1.47'
-
 DEFAULT_SERVER_HOST = '128.2.212.50'
-
+DEFAULT_ZOOM_FACTOR = 10
 
 def preprocess(frame):
-    return frame
+    # return frame
+
+    print(type(frame))
+
+    width, height = frame.shape[1], frame.shape[0]
+
+    left = int(width/2 * (1 - 1/DEFAULT_ZOOM_FACTOR))
+    top = int(height/2 * (1 - 1/DEFAULT_ZOOM_FACTOR))
+    right = int(width/2 * (1 + 1/DEFAULT_ZOOM_FACTOR))
+    bottom = int(height/2 * (1 + 1/DEFAULT_ZOOM_FACTOR))
+
+    cropped_frame = frame[top:bottom, left:right]
+    return cropped_frame
 
 
 def produce_extras():
