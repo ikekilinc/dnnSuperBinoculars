@@ -83,7 +83,7 @@ def main():
     parser.add_argument('--srntt_model_path', type=str, default='SRNTT/SRNTT/models/SRNTT')
     parser.add_argument('--vgg19_model_path', type=str, default='SRNTT/SRNTT/models/VGG19/imagenet-vgg-verydeep-19.mat')
     parser.add_argument('--save_dir', type=str, default=None, help='dir of saving intermediate training results')
-parser.add_argument('--num_res_blocks', type=int, default=16, help='number of residual blocks')
+    parser.add_argument('--num_res_blocks', type=int, default=16, help='number of residual blocks')
 
     # Test Parameters
     # parser.add_argument('--result_dir', type=str, default='result', help='dir of saving testing results')
