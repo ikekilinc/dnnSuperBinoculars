@@ -22,6 +22,8 @@ class DisplayEngine(cognitive_engine.Engine):
             num_res_blocks=args.num_res_blocks,
         )
         print("SRNTT model initialized.")
+        self.prev = None
+        self.prev_orig = None
 
     def handle(self, input_frame):
     # check input_dir
@@ -33,12 +35,15 @@ class DisplayEngine(cognitive_engine.Engine):
         np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
         orig_img = cv2.imdecode(np_data, cv2.IMREAD_COLOR)
 
+        # print(self.prev_orig == orig_img)
+        # self.prev_orig = orig_img
+
         # Conversion from BGR -> RGB
         # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
 
-        # # TODO: Run test without reference on input image
+        # TODO: Run test without reference on input image
         # srntt_frame = self.srntt.test_without_ref(
-        #     input_dir=img,
+        #     input_dir=orig_img,
         #     ref_dir=None,
         #     use_pretrained_model=True,
         #     use_init_model_only=False,
@@ -56,8 +61,19 @@ class DisplayEngine(cognitive_engine.Engine):
         #     # is_original_image=args.is_original_image
         # )
 
+        srntt_frame = self.srntt.test(
+            input_dir=orig_img,
+            ref_dir=orig_img,
+            save_ref=False,
+            result_dir="SRNTT/demo_testing_srntt",
+        )
+
+        # print(self.prev == srntt_frame)
+        # self.prev = srntt_frame
+
         # Encode result as JPG and convert into payload bytes format
-        _, jpeg_img = cv2.imencode(".jpg", orig_img, COMPRESSION_PARAMS)
+        # _, jpeg_img = cv2.imencode(".jpg", orig_img, COMPRESSION_PARAMS)
+        _, jpeg_img = cv2.imencode(".jpg", srntt_frame, COMPRESSION_PARAMS)
         payload_img = jpeg_img.tostring()
 
         # print(f"payload_img: {len(payload_img)}, equality: {payload_img == input_frame.payloads[0]}")
