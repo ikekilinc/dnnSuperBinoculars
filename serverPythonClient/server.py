@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 import common
-import yuv_pb2
+# import yuv_pb2
 from SRNTT.SRNTT.model import *
 
 from gabriel_protocol import gabriel_pb2
@@ -28,7 +28,6 @@ class DisplayEngine(cognitive_engine.Engine):
         # input_frame.payloads[0] = [[ A, B, C],
         #                            [ D, E, F]]
         # where A = [R, G, B]
-        print(f"input_frame: {len(input_frame.payloads[0])}")
 
         # Preprocessing steps used by both engines
         np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
@@ -37,65 +36,31 @@ class DisplayEngine(cognitive_engine.Engine):
         # Conversion from BGR -> RGB
         # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
 
-        # print(orig_img)
+        # # TODO: Run test without reference on input image
+        # srntt_frame = self.srntt.test_without_ref(
+        #     input_dir=img,
+        #     ref_dir=None,
+        #     use_pretrained_model=True,
+        #     use_init_model_only=False,
+        #     use_weight_map=False,
+        #     result_dir="SRNTT/demo_testing_srntt",
+        #     ref_scale=1.0,
+        #     is_original_image=True
+        #     # input_dir=args.input_dir,
+        #     # ref_dir=args.ref_dir,
+        #     # use_pretrained_model=args.use_pretrained_model,
+        #     # use_init_model_only=args.use_init_model_only,
+        #     # use_weight_map=args.use_weight_map,
+        #     # result_dir=args.result_dir,
+        #     # ref_scale=args.ref_scale,
+        #     # is_original_image=args.is_original_image
+        # )
 
-        # payload_img = orig_img.tobytes()
+        # Encode result as JPG and convert into payload bytes format
         _, jpeg_img = cv2.imencode(".jpg", orig_img, COMPRESSION_PARAMS)
         payload_img = jpeg_img.tostring()
 
-        print(f"payload_img: {len(payload_img)}, equality: {payload_img == input_frame.payloads[0]}")
-
-        if False:
-            yuv = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
-
-            # Use cv2 for image decoding & converting from brg->rgb
-
-
-            # # Preprocessing steps used by both engines
-            # np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
-            # orig_img = cv2.imdecode(np_data, cv2.IMREAD_COLOR)
-
-            # # Conversion from BGR -> RGB
-            # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
-
-            to_server = cognitive_engine.unpack_extras(yuv_pb2.ToServer,
-                                                    input_frame)
-            width = to_server.width
-            height = to_server.height
-            rotation = to_server.rotation
-
-            print(width, height, rotation)
-
-            yuv = np.reshape(yuv, ((height + (height//2)), width))
-            img = cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR_NV21)
-
-            if rotation != 0:
-                # np.rot90(img, 3) would correctly display an image rotated 90
-                # degress from Android
-                times_to_rotate = (360 - rotation) / 90
-                img = np.rot90(img, times_to_rotate)
-
-            print(f"DISPLAYENGINE HANDLER: INPUT FRAME TYPE -- {type(img)} -- {isinstance(img, np.ndarray)}")
-
-            # TODO: Run test without reference on input image
-            srntt_frame = self.srntt.test_without_ref(
-                input_dir=img,
-                ref_dir=None,
-                use_pretrained_model=True,
-                use_init_model_only=False,
-                use_weight_map=False,
-                result_dir="SRNTT/demo_testing_srntt",
-                ref_scale=1.0,
-                is_original_image=True
-                # input_dir=args.input_dir,
-                # ref_dir=args.ref_dir,
-                # use_pretrained_model=args.use_pretrained_model,
-                # use_init_model_only=args.use_init_model_only,
-                # use_weight_map=args.use_weight_map,
-                # result_dir=args.result_dir,
-                # ref_scale=args.ref_scale,
-                # is_original_image=args.is_original_image
-            )
+        # print(f"payload_img: {len(payload_img)}, equality: {payload_img == input_frame.payloads[0]}")
 
         # PREV structure
         status = gabriel_pb2.ResultWrapper.Status.SUCCESS
