@@ -31,9 +31,9 @@ class DisplayEngine(cognitive_engine.Engine):
         # Use cv2 for image decoding & converting from brg->rgb
 
 
-        # # Preprocessing steps used by both engines 
-        # np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8) 
-        # orig_img = cv2.imdecode(np_data, cv2.IMREAD_COLOR) 
+        # # Preprocessing steps used by both engines
+        # np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
+        # orig_img = cv2.imdecode(np_data, cv2.IMREAD_COLOR)
 
         # # Conversion from BGR -> RGB
         # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
