@@ -22,7 +22,21 @@ class DisplayEngine(cognitive_engine.Engine):
         print("SRNTT model initialized.")
 
     def handle(self, input_frame):
+    # check input_dir
+        # input_frame.payloads[0] = [[ A, B, C],
+        #                            [ D, E, F]]
+        # where A = [R, G, B]
         yuv = np.frombuffer(input_frame.payloads[0], dtype=np.uint8)
+
+        # Use cv2 for image decoding & converting from brg->rgb
+
+
+        # # Preprocessing steps used by both engines 
+        # np_data = np.frombuffer(input_frame.payloads[0], dtype=np.uint8) 
+        # orig_img = cv2.imdecode(np_data, cv2.IMREAD_COLOR) 
+
+        # # Conversion from BGR -> RGB
+        # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
 
         to_server = cognitive_engine.unpack_extras(yuv_pb2.ToServer,
                                                    input_frame)

@@ -14,7 +14,7 @@ DEFAULT_ZOOM_FACTOR = 10
 def preprocess(frame):
     # return frame
 
-    print(type(frame))
+    print(type(frame), frame.shape)
 
     width, height = frame.shape[1], frame.shape[0]
 
